@@ -142,6 +142,32 @@ static int _handle_session_get(struct iwn_wf_req *req, void *user_data) {
   }
 }
 
+static int _handle_user_get(struct iwn_wf_req*, void*);
+static int _handle_user_get(struct iwn_wf_req *req, void *user_data) {
+    
+  const char *val = "I'm a long string that is returned from the user_get handler";
+  printf("Line: %d\n", __LINE__);
+  if (val) {
+    printf("Line: %d\n", __LINE__);
+    bool ret = iwn_http_response_write(req->http, 200, "text/plain", val, strlen(val));
+    // bool ret = iwn_http_response_write(req->http, 200, "text/plain", "jroll", strlen(val));
+    printf("Line: %d; Retval: %d\n", __LINE__, ret);
+    printf("Line: %d\n", __LINE__);
+    return 0;
+  } else {
+    return 500;
+  }
+}
+
+static int _handle_user_post(struct iwn_wf_req*, void*);
+static int _handle_user_post(struct iwn_wf_req *req, void *user_data) {
+  struct iwn_val bigparam = iwn_pair_find_val(&req->form_params, "bigparam", -1);
+  IWN_ASSERT(bigparam.len && bigparam.buf);
+  bool ret = iwn_http_response_write(req->http, 200, "text/plain", bigparam.buf, bigparam.len);
+  IWN_ASSERT(ret)
+  return 1;
+}
+
 static int _handle_file_get(struct iwn_wf_req *req, void *user_data) {
   const char *path = req->path_unmatched;
   while (*path == '/') ++path;
@@ -256,6 +282,7 @@ int main(int argc, char *argv[]) {
     .flags = IWN_WF_POST
   }, 0));
 
+
   RCC(rc, finish, iwn_wf_route(&(struct iwn_wf_route) {
     .parent = r,
     .pattern = "/putdata",
@@ -288,6 +315,20 @@ int main(int argc, char *argv[]) {
     .pattern = "/session/get",
     .handler = _handle_session_get,
   }, 0));
+
+  /* user_get route */
+  printf("Line: %d\n", __LINE__);
+  
+  RCC(rc, finish, iwn_wf_route(&(struct iwn_wf_route) {
+    // .parent = r,
+    .ctx = ctx,
+    .pattern = "/user",
+    .handler = _handle_user_get,
+    .flags = IWN_WF_GET,
+    .tag = "user",
+  }, 0));
+  printf("Line: %d\n", __LINE__);
+
 
   RCC(rc, finish, iwn_wf_route(&(struct iwn_wf_route) {
     .ctx = ctx,
@@ -338,7 +379,10 @@ int main(int argc, char *argv[]) {
 
 finish:
   iwn_poller_destroy(&poller);
+  printf("Line: %d\n", __LINE__);
   IWN_ASSERT(rc == 0);
+  printf("Line: %d\n", __LINE__);
   IWN_ASSERT(state & S_ROOT_DISPOSED);
+  printf("Line: %d\n", __LINE__);
   return iwn_assertions_failed > 0 ? 1 : 0;
 }

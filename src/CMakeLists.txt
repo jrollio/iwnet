@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 4.0)
+project(iwnet)
+
 if(NOT CMAKE_BUILD_TYPE)
   message(
     FATAL_ERROR

@@ -11,6 +11,7 @@ file(
 
 add_executable(server1 server1.c)
 add_executable(server2 server2.c)
+add_executable(server3 server3.c)
 add_executable(proxy1 proxy1.c)
 
 set_target_properties(server1 server2 PROPERTIES COMPILE_FLAGS
@@ -44,6 +45,16 @@ add_test(
   NAME "server2-tests-run.sh_ssl"
   WORKING_DIRECTORY ${TEST_DATA_DIR}
   COMMAND sh ./server2-tests-run.sh -- --ssl)
+
+add_test(
+  NAME "server3-tests-run.sh"
+  WORKING_DIRECTORY ${TEST_DATA_DIR}
+  COMMAND sh ./server3-tests-run.sh)
+
+# add_test(
+#   NAME "server3-tests-run.sh_ssl"
+#   WORKING_DIRECTORY ${TEST_DATA_DIR}
+#   COMMAND sh ./server3-tests-run.sh -- --ssl)
 
 add_test(
   NAME "proxy1-tests-run.sh"

@@ -1,0 +1,161 @@
+
+
+Get empty:
+HTTP/1.1 200 OK
+connection: keep-alive
+content-type: text/plain
+content-length: 2
+
+OK
+
+Get not-found:
+HTTP/1.1 404 Not Found
+connection: keep-alive
+content-type: text/plain
+content-length: 19
+
+Not found from root
+
+Get query:
+HTTP/1.1 200 OK
+connection: keep-alive
+content-type: text/plain;
+content-length: 15
+
+foo=bar&baz=a@z
+
+Get fail:
+
+
+Post urlencoded:
+HTTP/1.1 200 OK
+connection: keep-alive
+content-type: text/plain;
+content-length: 15
+
+foo=bar&baz=a@z
+
+Put data:
+HTTP/1.1 200 OK
+connection: keep-alive
+content-type: text/plan
+content-length: 36
+
+ff5fd857-c90b-4066-910f-a9a5d1fa1b47
+
+Post chunked:
+
+
+Post multipart:
+OK
+
+Session put:
+HTTP/1.1 200 OK
+connection: keep-alive
+content-type: text/plain
+content-length: 2
+
+OK
+
+Session get:
+HTTP/1.1 200 OK
+connection: keep-alive
+content-type: text/plan
+content-length: 36
+
+70b2a86f-025b-4805-b267-871f3e1bc170
+
+Directory serve:
+HTTP/1.1 200 OK
+connection: keep-alive
+content-length: 16
+content-type: application/json
+accept-ranges: bytes
+
+{"msg":"Hello"}
+
+
+File get:
+
+
+File2 get:
+
+
+File get HEAD:
+HTTP/1.1 200 OK
+connection: keep-alive
+content-length: 15165824
+content-type: application/octet-stream
+accept-ranges: bytes
+
+
+
+Range1:
+HTTP/1.1 206 Partial Content
+connection: keep-alive
+content-range: bytes 0-7/36
+content-length: 8
+content-type: application/octet-stream
+accept-ranges: bytes
+
+ae0150d3
+
+Range2:
+HTTP/1.1 206 Partial Content
+connection: keep-alive
+content-range: bytes 0-0/36
+content-length: 1
+content-type: application/octet-stream
+accept-ranges: bytes
+
+a
+
+Range3:
+HTTP/1.1 206 Partial Content
+connection: keep-alive
+content-range: bytes 35-35/36
+content-length: 1
+content-type: application/octet-stream
+accept-ranges: bytes
+
+6
+
+Range4:
+HTTP/1.1 416 
+connection: keep-alive
+content-type: text/plain
+accept-ranges: bytes
+content-length: 0
+
+
+
+Range5:
+HTTP/1.1 200 OK
+connection: keep-alive
+content-length: 36
+content-type: application/octet-stream
+accept-ranges: bytes
+
+ae0150d3-c811-4313-b5d5-89fcfc29f8c6
+
+Range6:
+HTTP/1.1 416 
+connection: keep-alive
+content-type: text/plain
+content-length: 0
+
+
+
+Range7:
+HTTP/1.1 206 Partial Content
+connection: close
+accept-ranges: bytes
+
+content-type: application/octet-stream
+content-range: bytes 0-7/36
+
+ae0150d3
+content-type: application/octet-stream
+content-range: bytes 35-35/36
+
+6
