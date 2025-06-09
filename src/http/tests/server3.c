@@ -55,6 +55,10 @@ static int _handle_get(struct iwn_wf_req *req, void *user_data) {
 
 static int _handle_get_empty(struct iwn_wf_req *req, void *user_data) {
   ++_handle_get_empty_cnt;
+  fprintf(stderr, "Line: %d, Route: %s; Path: %s\n", __LINE__, req->route->pattern, req->path);
+  if (req->body_len) {
+    fprintf(stderr, "Line: %d, Body: %.*s\n", __LINE__, (int) req->body_len, req->body);
+  }
   IWN_ASSERT((intptr_t) user_data == 1);
   return 200; // Empty reponse with ok status
 }
